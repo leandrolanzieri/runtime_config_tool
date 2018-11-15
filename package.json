@@ -2,10 +2,10 @@
   "name": "rapstore-configuration-tool",
   "version": "0.0.1",
   "description": "RAPstore tool for RIOT nodes configuration",
-  "homepage": "https://github.com/maximegris/angular-electron",
+  "homepage": "",
   "author": {
-    "name": "Maxime GRIS",
-    "email": "maxime.gris@gmail.com"
+    "name": "Leandro Lanzieri",
+    "email": "leandro.lanzieri@haw-hamburg.de"
   },
   "keywords": [
     "angular",

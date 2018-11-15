@@ -1,7 +1,13 @@
 <div class="container">
-  <h1 class="title">
-    RAPstore Configuration Tool
-  </h1>
+  <div class="row">
+    <div class="col">
+      <h1>
+          <img src="../../assets/logo-large.png" width="30" height="30" class="d-inline-block align-top" alt="">
+          RAPstore configuration tool
+        </h1>
+    </div>
+  </div>
+
 
   <div class="container">
     <div class="alert alert-warning" role="alert" *ngIf="connected && !bootloader">
@@ -17,7 +23,7 @@
           </select>
       </div>
     </div>
-
+    <br>
     <div class="row">
       <div class="col-sm-3 offset-sm-3">
           <button type="button" class="btn btn-outline-primary"
@@ -25,7 +31,7 @@
                   *ngIf="!connected">
               Connect
           </button>
-          <button type="button" class="btn btn-outline-danger"
+          <button type="button" class="btn btn-outline-danger m-1"
           (click)="disconnectDevice()"
           *ngIf="connected">
               Disconnect
@@ -45,7 +51,7 @@
     <hr>
     <div class="row" *ngIf="configOptions.length">
       <div class="col-sm-12">
-        <div class="row">
+        <div class="row font-weight-bold">
           <div class="col-sm-4">Name</div>
           <div class="col-sm-4">Description</div>
           <div class="col-sm-4">Value</div>
@@ -63,7 +69,6 @@
                     Save
                   </button>
               </div>
-              <!-- <div class="col-sm-4">{{option.value}}</div> -->
             </div>
           </button>
         </div>

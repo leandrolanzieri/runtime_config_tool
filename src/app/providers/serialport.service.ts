@@ -22,6 +22,7 @@ export class SerialPortService {
     connect(comName: string) {
         return new Promise((resolve, reject) => {
             let port = window.require('serialport')(comName, (err) => {
+                console.error('Service: Could not open', err);
                 reject(err);
             });
             let parser = port.pipe(new Readline({ delimiter: '\n' }));

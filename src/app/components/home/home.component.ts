@@ -41,6 +41,7 @@ export class HomeComponent implements OnInit {
   bootloader: boolean = false;
   processingAction: boolean = false;
   actionsQueue: Action[] = [];
+  selectedPort: string;
 
   constructor(private serialportService: SerialPortService) { }
 
@@ -67,15 +68,17 @@ export class HomeComponent implements OnInit {
       this.serialportService.connect(comName).then((data) => {
         this.parser = data['parser'];
         this.port = data['port'];
-        
+
         this.connected = true;
 
-        this.parser.on('data', (data) => {
-          this.deviceDataCallback(data)
+        this.port.flush((err) => {
+          this.parser._flush((err) => {
+            this.parser.on('data', (data) => {
+              this.deviceDataCallback(data)
+            });
+            this.testBootloader();
+          });
         });
-
-
-        this.testBootloader();
 
       }).catch((error) => {
         console.error('Could not connect to port!');
@@ -99,7 +102,6 @@ export class HomeComponent implements OnInit {
   }
 
   getConfigOptions() {
-    this.configOptions = [];
     this.addAction({
       command: Command.OPTIONS,
       callback: this.cmdOptionsCb
@@ -107,12 +109,17 @@ export class HomeComponent implements OnInit {
   }
 
   disconnectDevice() {
-    this.port.close();
-    this.connected = false;
-    this.configOptions = [];
+    this.port.close((err) => {
+      if (err) {
+        console.error(err);
+      }
+      this.connected = false;
+      this.configOptions = [];
+    });
   }
 
   cmdOptionsCb = (data) => {
+    this.configOptions = [];
     data = data.slice(0, -1);
     let options = data.split(';');
 
@@ -182,30 +189,6 @@ export class HomeComponent implements OnInit {
         callback(data);
       }
     }
-
-    // console.log('Currently processing command:', this.processingCommand);
-    // switch (this.processingCommand) {
-    //   case Command.OPTIONS:
-    //     this.cmdOptionsCb(data);
-    //     break;
-
-    //   case Command.TEST:
-    //     this.cmdTestCb(data);
-    //     break;
-
-    //   case Command.SET:
-    //     this.cmdSetCb(data);
-    //     break;
-      
-    //   case Command.GET:
-    //     this.cmdGetCb(data);
-    //     break;
-
-    //   default:
-    //     console.error('Unexpected response', data);
-    //     this.processingCommand = null;
-    //     break;
-    // }
   }
 
   sendToDevice(command: Command, param?: string) {

@@ -1,0 +1,74 @@
+<div class="container">
+  <h1 class="title">
+    RAPstore Configuration Tool
+  </h1>
+
+  <div class="container">
+    <div class="alert alert-warning" role="alert" *ngIf="connected && !bootloader">
+        Node connected but not in configuration mode.
+    </div>
+    <div class="row">
+      <div class="col-sm-6 offset-sm-3">
+          <label for="serialports">Serial port</label>
+          <select class="form-control" id="form-serialport" [(ngModel)]="selectedPort">
+            <option *ngFor="let port of ports" value="{{port.comName}}">
+              {{port.comName}} {{port.manufacturer}}
+            </option>
+          </select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-3 offset-sm-3">
+          <button type="button" class="btn btn-outline-primary"
+                  (click)="connectDevice(selectedPort)"
+                  *ngIf="!connected">
+              Connect
+          </button>
+          <button type="button" class="btn btn-outline-danger"
+          (click)="disconnectDevice()"
+          *ngIf="connected">
+              Disconnect
+          </button>
+          <!-- <button type="button" class="btn btn-outline-success"
+          (click)="testBootloader()"
+          *ngIf="connected">
+              Test
+          </button> -->
+          <button type="button" class="btn btn-outline-success"
+          (click)="testBootloader()"
+          *ngIf="connected">
+              Refresh
+          </button>
+      </div>
+    </div>
+    <hr>
+    <div class="row" *ngIf="configOptions.length">
+      <div class="col-sm-12">
+        <div class="row">
+          <div class="col-sm-4">Name</div>
+          <div class="col-sm-4">Description</div>
+          <div class="col-sm-4">Value</div>
+        </div>
+        <div class="list-group">
+          <button *ngFor="let option of configOptions" class="list-group-item list-group-item-action">
+            <div class="row">
+              <div class="col-sm-4">{{option.name}}</div>
+              <div class="col-sm-4">{{option.description}}</div>
+              <div class="col-sm-3">
+                <input [(ngModel)]="option.value" class="form-control">
+              </div>
+              <div class="col-sm-1">
+                  <button class="btn btn-outline-success" (click)="saveConfig(option.name, option.value)">
+                    Save
+                  </button>
+              </div>
+              <!-- <div class="col-sm-4">{{option.value}}</div> -->
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

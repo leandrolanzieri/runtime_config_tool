@@ -37,7 +37,32 @@ export class HomeComponent implements OnInit {
   parser: any;
   portsCheckInterval: NodeJS.Timer;
   connected: boolean = false;
-  configOptions: ConfigOption[] = [];
+  configOptions: ConfigOption[] = [
+    {
+      name: 'lorawan/appkey',
+      description: 'LoRaWAN application key',
+      value: 'D5D6626142E794919131B590B12FE420',
+      modified: false
+    },
+    {
+      name: 'lorawan/deveui',
+      description: 'LoRaWAN device EUI',
+      value: '0028E714E0154A5B',
+      modified: false
+    },
+    {
+      name: 'lorawan/appeui',
+      description: 'LoRaWAN application EUI',
+      value: '70B498FED0011CF4',
+      modified: false
+    },
+    {
+      name: 'application/refresh',
+      description: 'Time between sensor reports [s]',
+      value: '30',
+      modified: false
+    }
+  ];
   bootloader: boolean = false;
   processingAction: boolean = false;
   actionsQueue: Action[] = [];
@@ -119,7 +144,7 @@ export class HomeComponent implements OnInit {
   }
 
   cmdOptionsCb = (data) => {
-    this.configOptions = [];
+    //this.configOptions = [];
     data = data.slice(0, -1);
     let options = data.split(';');
 
